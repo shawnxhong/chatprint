@@ -1,0 +1,81 @@
+# Memorial Chatbot Configuration
+# Edit this file to match your friend's details and your hardware
+
+person:
+  name: "friend"           # The deceased friend's display name (used in prompts)
+  wxid: ""                 # His WeChat ID (found in WeChat data directory name)
+  description: ""          # Optional: brief personality description for system prompt
+
+# WeChat data extraction
+wechat:
+  # Windows: C:/Users/<user>/Documents/WeChat Files/<wxid>/
+  # Mac: ~/Library/Containers/com.tencent.xinWeChat/Data/Library/Application Support/com.tencent.xinWeChat/
+  data_dir: ""
+  # List of contact wxids to prioritize for training (1-on-1 conversations)
+  # Leave empty to use all contacts
+  priority_contacts: []
+
+# Data processing
+data:
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  training_dir: "data/training"
+  rag_corpus_dir: "data/rag_corpus"
+  chroma_db_dir: "data/chroma_db"
+
+  # Training pair construction
+  context_window_min: 3     # Min preceding messages to include as context
+  context_window_max: 8     # Max preceding messages to include as context
+  max_gap_seconds: 3600     # Max time gap (seconds) before starting a new conversation
+  min_response_length: 2    # Min characters for a response to be included
+  max_training_examples: 10000
+
+# Model
+model:
+  base_model: "Qwen/Qwen2.5-7B-Instruct"
+  base_model_dir: "models/base"
+  lora_adapter_dir: "models/lora_adapter"
+  gguf_dir: "models/gguf"
+  gguf_quantization: "q4_k_m"  # q4_k_m (smallest), q5_k_m (balanced), q6_k (best quality)
+
+# QLoRA training
+training:
+  lora_r: 64
+  lora_alpha: 128
+  lora_dropout: 0.05
+  target_modules:
+    - q_proj
+    - k_proj
+    - v_proj
+    - o_proj
+    - gate_proj
+    - up_proj
+    - down_proj
+  epochs: 3
+  learning_rate: 0.0002
+  per_device_batch_size: 4
+  gradient_accumulation_steps: 4
+  max_seq_length: 2048
+  warmup_ratio: 0.1
+  weight_decay: 0.01
+  save_steps: 100
+  eval_steps: 100
+  val_split: 0.05           # 5% held out for validation
+
+# RAG
+rag:
+  embedding_model: "BAAI/bge-m3"
+  collection_name: "memories"
+  top_k: 5                  # Number of memories to retrieve per query
+  chunk_size: 400            # Target characters per memory chunk
+  chunk_overlap: 50
+
+# Serving
+serving:
+  ollama_model_name: "memorial-bot"
+  host: "0.0.0.0"
+  port: 7860
+  # Known contacts (friends who will chat with the bot)
+  # Each entry: display name as they should appear in the UI
+  contacts:
+    - "我自己"

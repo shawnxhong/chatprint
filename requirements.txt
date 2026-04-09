@@ -1,0 +1,26 @@
+# WeChat data extraction
+pywxdump>=3.0.0
+
+# Data processing
+lxml>=5.0.0
+
+# Fine-tuning (install with: pip install "unsloth[colab-new] @ git+https://github.com/unslothai/unsloth.git" for latest)
+unsloth
+bitsandbytes>=0.43.0
+transformers>=4.45.0
+datasets>=2.21.0
+trl>=0.11.0
+peft>=0.13.0
+accelerate>=0.34.0
+
+# RAG
+chromadb>=0.5.0
+sentence-transformers>=3.0.0
+
+# Serving
+gradio>=5.0.0
+ollama>=0.3.0
+
+# Utilities
+pyyaml>=6.0
+tqdm>=4.66.0
