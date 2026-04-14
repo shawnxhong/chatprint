@@ -32,14 +32,18 @@ data:
 
 # Model
 model:
-  base_model: "Qwen/Qwen2.5-7B-Instruct"
+  base_model: "Qwen/Qwen2.5-7B-Instruct"       # used by backend=cuda
+  intel_base_model: "Qwen/Qwen3.5-2B-Instruct" # used by backend=intel/cpu (fits 16 GB RAM)
   base_model_dir: "models/base"
   lora_adapter_dir: "models/lora_adapter"
   gguf_dir: "models/gguf"
   gguf_quantization: "q4_k_m"  # q4_k_m (smallest), q5_k_m (balanced), q6_k (best quality)
 
-# QLoRA training
+# QLoRA / LoRA training
 training:
+  backend: "cuda"   # "cuda" (NVIDIA, Unsloth+QLoRA) | "intel" (Intel Arc/IPEX) | "cpu"
+
+  # --- Shared params (used by all backends) ---
   lora_r: 64
   lora_alpha: 128
   lora_dropout: 0.05
@@ -61,6 +65,16 @@ training:
   save_steps: 100
   eval_steps: 100
   val_split: 0.05           # 5% held out for validation
+
+  # --- Intel/CPU backend overrides (applied on top of shared params above) ---
+  intel:
+    lora_r: 16
+    lora_alpha: 32
+    per_device_batch_size: 1
+    gradient_accumulation_steps: 8
+    max_seq_length: 1024
+    use_ipex: true     # set false to force CPU even when Intel Arc is present
+    bf16: true         # bf16 on Arc GPU; automatically disabled on plain CPU
 
 # RAG
 rag:

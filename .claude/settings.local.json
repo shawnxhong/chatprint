@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:ollama.com)",
+      "Bash(conda run:*)",
+      "Read(//c/Users/53422/anaconda3/envs/**)",
+      "Read(//c/Users/53422/miniconda3/envs/**)",
+      "Read(//c/Users/53422/**)",
+      "Bash($CHAT_PY:*)",
+      "WebFetch(domain:unsloth.ai)",
+      "WebFetch(domain:community.intel.com)",
+      "Bash(ls:*)",
+      "Bash(/c/Users/53422/.conda/envs/chat/python.exe smoke_test/test.py)",
+      "Bash(echo \"EXIT: $?\")",
+      "Read(//tmp/**)",
+      "Bash(gcc --version)",
+      "Bash(echo \"no cl\" ls /c/msys64/mingw64/bin/gcc*)",
+      "Bash(cmd /c \"C:\\\\Users\\\\53422\\\\AppData\\\\Local\\\\Temp\\\\run_test.bat\")"
+    ]
+  }
+}

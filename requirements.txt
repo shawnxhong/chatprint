@@ -4,9 +4,19 @@ pywxdump>=3.0.0
 # Data processing
 lxml>=5.0.0
 
-# Fine-tuning (install with: pip install "unsloth[colab-new] @ git+https://github.com/unslothai/unsloth.git" for latest)
+# Fine-tuning: CUDA backend (NVIDIA GPUs only)
+# Requires CUDA toolkit; do not install on Intel/CPU machines
 unsloth
 bitsandbytes>=0.43.0
+
+# Fine-tuning: Intel/CPU backend
+# intel_extension_for_pytorch must be installed separately — the wheel URL depends
+# on your torch version. Follow the matrix at:
+#   https://intel.github.io/intel-extension-for-pytorch/
+# Quick install example (torch 2.3, XPU/Arc):
+#   pip install intel_extension_for_pytorch --extra-index-url https://pytorch-extension.intel.com/release-whl/stable/xpu/us/
+
+# Fine-tuning: shared (all backends)
 transformers>=4.45.0
 datasets>=2.21.0
 trl>=0.11.0
